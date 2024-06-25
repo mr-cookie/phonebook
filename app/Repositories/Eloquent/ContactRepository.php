@@ -5,7 +5,6 @@ use App\Models\Contact;
 use App\DTO\ContactStoreDTO;
 use App\DTO\ContactUpdateDTO;
 use App\DTO\ContactListDTO;
-use App\DTO\ContactFavoriteDTO;
 use App\Exceptions\Contact\NotFoundContactException;
 use App\Exceptions\AccessDeniedException;
 class ContactRepository implements ContactRepositoryInterface{

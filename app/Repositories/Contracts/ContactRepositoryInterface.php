@@ -3,7 +3,6 @@ namespace App\Repositories\Contracts;
 use App\DTO\ContactStoreDTO;
 use App\DTO\ContactUpdateDTO;
 use App\DTO\ContactListDTO;
-use App\DTO\ContactFavoriteDTO;
 
 interface ContactRepositoryInterface {
   function show(int $id, int $userId);
