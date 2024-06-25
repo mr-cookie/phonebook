@@ -10,6 +10,6 @@ interface ContactRepositoryInterface {
   function index(ContactListDTO $dto);
   function store(ContactStoreDTO $dto);
   function update(int $id, ContactUpdateDTO $dto);
-  function updateFavorite(int $id, ContactFavoriteDTO $dto);
+  function updateFavorite(int $id, int $userId);
   function destroy(int $id, int $userId);
 }

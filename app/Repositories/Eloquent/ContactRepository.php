@@ -60,10 +60,12 @@ class ContactRepository implements ContactRepositoryInterface{
         return self::getExceptionNotFound();
     }
 
-    function updateFavorite(int $id, ContactFavoriteDTO $dto){
+    function updateFavorite(int $id, int $userId){
         $contact = Contact::find($id);
         if($contact){
-            $contact->favorite = $dto->favorite;
+            if($contact->user_id != $userId)
+                return self::accessDeniedException();
+            $contact->favorite = !$contact->favorite;
             return $contact->save();
         }
     }

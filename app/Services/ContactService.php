@@ -1,12 +1,9 @@
 <?php
 namespace App\Services;
 
-use App\DTO\ContactFavoriteDTO;
 use App\DTO\ContactListDTO;
 use App\DTO\ContactStoreDTO;
 use App\DTO\ContactUpdateDTO;
-use App\Exceptions\AccessDeniedException;
-use App\Exceptions\Contact\NotFoundContactException;
 use App\Repositories\Contracts\ContactRepositoryInterface;
 
 class ContactService {
@@ -25,16 +22,7 @@ class ContactService {
     }
 
     public function toggleFavorite(int $id, int $userId){
-        $contact = $this->repoContact->show($id);
-        if ($contact){
-            if ($contact->user_id != $userId)
-                return throw new AccessDeniedException('Access denied.'); 
-            $dto = new ContactFavoriteDTO([
-                'favorite' => !$contact->favorite
-            ]);
-            return $this->repoContact->updateFavorite($id, $dto);
-        }
-        return throw new NotFoundContactException('Contact not found!');
+        return $this->repoContact->updateFavorite($id, $userId);
     }
 
     public function show(int $id, int $userId){
