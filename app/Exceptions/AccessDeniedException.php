@@ -9,6 +9,6 @@ use Illuminate\Http\JsonResponse;
 class AccessDeniedException extends Exception
 {
     public function render(Request $request): JsonResponse{
-        return response()->json(["message" => $this->getMessage()]);
+        return response()->json(["message" => $this->getMessage()], 403);
     }
 }
