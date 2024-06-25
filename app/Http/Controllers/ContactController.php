@@ -36,12 +36,12 @@ class ContactController extends Controller
     }
 
     public function toggleFavorite(int $id){
-        $result = $this->contactService->toggleFavorite($id); 
+        $result = $this->contactService->toggleFavorite($id, Auth::id()); 
         return response()->json($result, 200);
     }
 
     public function show(int $id){
-        $result = $this->contactService->show($id);
+        $result = $this->contactService->show($id, Auth::id());
         return response()->json($result, 200);
     }
 
@@ -54,7 +54,7 @@ class ContactController extends Controller
     }
 
     public function destroy(int $id){
-        $result = $this->contactService->destroy($id);
+        $result = $this->contactService->destroy($id, Auth::id());
         return response()->json($result, 200);
     }
 }

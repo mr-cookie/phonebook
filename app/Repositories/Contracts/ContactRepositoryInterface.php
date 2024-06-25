@@ -6,10 +6,10 @@ use App\DTO\ContactListDTO;
 use App\DTO\ContactFavoriteDTO;
 
 interface ContactRepositoryInterface {
-  function show(int $id);
+  function show(int $id, int $userId);
   function index(ContactListDTO $dto);
   function store(ContactStoreDTO $dto);
   function update(int $id, ContactUpdateDTO $dto);
   function updateFavorite(int $id, ContactFavoriteDTO $dto);
-  function destroy(int $id);
+  function destroy(int $id, int $userId);
 }

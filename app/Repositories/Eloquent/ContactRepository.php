@@ -6,17 +6,25 @@ use App\DTO\ContactStoreDTO;
 use App\DTO\ContactUpdateDTO;
 use App\DTO\ContactListDTO;
 use App\DTO\ContactFavoriteDTO;
-
+use App\Exceptions\Contact\NotFoundContactException;
+use App\Exceptions\AccessDeniedException;
 class ContactRepository implements ContactRepositoryInterface{
 
-    private static function getExceptionNotFound(){
-        return throw new \Exception('Contact not found!');;
+    private static function accessDeniedException(){
+        return throw new AccessDeniedException('Access denied.');
     }
 
-    function show(int $id){
+    private static function getExceptionNotFound(){
+        return throw new NotFoundContactException('Contact not found!');
+    }
+
+    function show(int $id, int $userId){
         $contact = Contact::find($id);
-        if ($contact)
+        if ($contact){
+            if ($contact->user_id != $userId)
+                return self::accessDeniedException();
             return $contact;
+        }
         return self::getExceptionNotFound(); 
     }
 
@@ -32,6 +40,8 @@ class ContactRepository implements ContactRepositoryInterface{
 
     function update(int $id, ContactUpdateDTO $dto){
         $contact = Contact::find($id);
+        if($contact->user_id != $dto->user_id)
+            return self::accessDeniedException(); 
         if($contact){
             foreach($dto->all() as $key => $value)
                 $contact->{$key} = $value;
@@ -40,9 +50,11 @@ class ContactRepository implements ContactRepositoryInterface{
        return self::getExceptionNotFound(); 
     }
     
-    function destroy(int $id){
+    function destroy(int $id, $userId){
         $contact = Contact::find($id);
         if($contact){
+            if($contact->user_id != $userId)
+                return self::accessDeniedException();
             return $contact->delete();
         }
         return self::getExceptionNotFound();
